@@ -5,13 +5,30 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
  */
 import {AppEntry} from '@screens/entry';
 
-const Stack = createNativeStackNavigator();
+import {FitnessAppStack} from './fitness-app-stack';
+import {MobileFlashCardStack} from './mobile-flashcard-app-stack';
+import {ROUTES} from './routes';
+
+/**
+ * ? types
+ */
+import {AppStackScreensList} from './types';
+
+const Stack = createNativeStackNavigator<AppStackScreensList>();
 
 export const AppStack = () => (
 	<Stack.Navigator
-		initialRouteName='APP_ENTRY_SCREEN'
+		initialRouteName={ROUTES.APP_ENTRY_SCREEN}
 		screenOptions={{headerShown: false}}
 	>
-		<Stack.Screen name='APP_ENTRY_SCREEN' component={AppEntry} />
+		<Stack.Screen name={ROUTES.APP_ENTRY_SCREEN} component={AppEntry} />
+		<Stack.Screen
+			name={ROUTES.MOBILE_FLASHCARD_ENTRY_SCREEN}
+			component={MobileFlashCardStack}
+		/>
+		<Stack.Screen
+			name={ROUTES.FITNESS_ENTRY_SCREEN}
+			component={FitnessAppStack}
+		/>
 	</Stack.Navigator>
 );
