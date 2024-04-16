@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {GestureResponderEvent, StyleSheet, View} from 'react-native';
 
 /**
  * ? Local & Shared Imports
@@ -9,7 +9,20 @@ import {Text} from '@shared-components/text-wrapper';
 import {Button} from '@shared-components/button';
 import {Separator} from '@shared-components/separator';
 
-export const AppEntry = () => {
+import {type APPEntryProps} from '@navigation/types';
+
+export const AppEntry = ({navigation}: APPEntryProps) => {
+	const navigateTo = React.useCallback(
+		(app_name: 'flashcard' | 'fitness') => {
+			navigation.navigate(
+				app_name === 'fitness'
+					? 'FITNESS_ENTRY_SCREEN'
+					: 'MOBILE_FLASHCARD_ENTRY_SCREEN'
+			);
+		},
+		[navigation]
+	);
+
 	return (
 		<ScreenWrapper>
 			<Separator height={20} />
@@ -18,9 +31,25 @@ export const AppEntry = () => {
 			</Text>
 			<Separator height={40} />
 			<View style={styles.container}>
-				<Button textLabel='Mobile Flashcard App' />
+				<Button
+					accessibilityLabel='Navigate to Mobile Flashcard App'
+					accessibilityRole='button'
+					textLabel='Mobile Flashcard App'
+					onPress={(e: GestureResponderEvent) => {
+						e.stopPropagation();
+						navigateTo('flashcard');
+					}}
+				/>
 				<Separator height={20} />
-				<Button textLabel='Fitness App' />
+				<Button
+					accessibilityLabel='Navigate to Fitness App'
+					accessibilityRole='button'
+					textLabel='Fitness App'
+					onPress={(e: GestureResponderEvent) => {
+						e.stopPropagation();
+						navigateTo('fitness');
+					}}
+				/>
 			</View>
 		</ScreenWrapper>
 	);

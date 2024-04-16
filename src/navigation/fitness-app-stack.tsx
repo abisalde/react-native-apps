@@ -4,26 +4,23 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 /**
  * ? SCREENS
  */
-import MobileFlashCardEntry from '@screens/mobile-flashcard-app';
+import FitnessAppEntry from '@screens/fitness-app';
 
 import {Android} from '@shared-constants/app-config';
 import {ROUTES} from './routes';
-import {type MobileFlashCardStackList} from './types';
+import {type FitnessAppStackList} from './types';
 
-const Stack = createNativeStackNavigator<MobileFlashCardStackList>();
+const Stack = createNativeStackNavigator<FitnessAppStackList>();
 
 const Tabs = Android
 	? createMaterialTopTabNavigator()
 	: createBottomTabNavigator();
 
-export const MobileFlashCardStack = () => (
+export const FitnessAppStack = () => (
 	<Stack.Navigator
-		initialRouteName={ROUTES.MOBILE_FLASHCARD_ENTRY}
+		initialRouteName={ROUTES.FITNESS_ENTRY}
 		screenOptions={{headerShown: false}}
 	>
-		<Stack.Screen
-			name={ROUTES.MOBILE_FLASHCARD_ENTRY}
-			component={MobileFlashCardEntry}
-		/>
+		<Stack.Screen name={ROUTES.FITNESS_ENTRY} component={FitnessAppEntry} />
 	</Stack.Navigator>
 );
