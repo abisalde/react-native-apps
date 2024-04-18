@@ -6,6 +6,7 @@ import type {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
  * ? Local & Shared Imports
  */
 import {ROUTES} from './routes';
+import type {MobileFlashCardTabList} from './tabs/types';
 
 export type MobileFlashCardStackList = {
 	[ROUTES.MOBILE_FLASHCARD_ENTRY]: undefined;
