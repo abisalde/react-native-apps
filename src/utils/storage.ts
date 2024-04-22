@@ -11,9 +11,9 @@ export async function setStorageItemAsync(key: string, value: string | null) {
 	if (WEB) {
 		try {
 			if (value === null) {
-				localStorage.removeItem(key);
+				storage.removeItem(key);
 			} else {
-				localStorage.setItem(key, value);
+				storage.setItem(key, value);
 			}
 		} catch (e) {
 			console.error('Local storage is unavailable:', e);
@@ -31,13 +31,13 @@ export async function setStorageItemAsync(key: string, value: string | null) {
 export async function getStorageItemAsync(key: string) {
 	if (WEB) {
 		try {
-			if (typeof localStorage !== 'undefined') {
-				return localStorage.getItem(key);
+			if (typeof storage !== 'undefined') {
+				return storage.getItem(key);
 			}
 		} catch (e) {
 			console.error('Local storage is unavailable: ', e);
 		}
-		return null; // Return null if localStorage is unavailable
+		return null; // Return null if storage is unavailable
 	} else {
 		try {
 			const secure = await SecureStore.getItemAsync(key);

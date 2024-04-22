@@ -72,7 +72,7 @@ export const Button: React.FC<ButtonProps> = ({
 			>
 				{!loading ? (
 					<Text
-						color={variant === 'primary' ? colors.white : colors.black}
+						color={variant === 'primary' ? 'white' : 'black'}
 						center
 						fontFamily='DMSansSemiBold'
 						style={textLabelStyle}
@@ -83,7 +83,7 @@ export const Button: React.FC<ButtonProps> = ({
 					<ActivityIndicator
 						animating={loading}
 						size='large'
-						color={variant === 'primary' ? colors.white : colors.primary}
+						color={variant === 'primary' ? 'white' : 'primary'}
 					/>
 				)}
 			</RNBounce>

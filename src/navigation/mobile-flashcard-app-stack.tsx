@@ -6,6 +6,7 @@ import MobileFlashCardEntry from '@screens/mobile-flashcard-app';
 
 import {ROUTES} from './routes';
 import {type MobileFlashCardStackList} from './types';
+import {MobileFlashCardTab} from './tabs';
 
 const Stack = createNativeStackNavigator<MobileFlashCardStackList>();
 
@@ -16,7 +17,7 @@ export const MobileFlashCardStack = () => (
 	>
 		<Stack.Screen
 			name={ROUTES.MOBILE_FLASHCARD_ENTRY}
-			component={MobileFlashCardEntry}
+			component={MobileFlashCardTab}
 		/>
 	</Stack.Navigator>
 );
