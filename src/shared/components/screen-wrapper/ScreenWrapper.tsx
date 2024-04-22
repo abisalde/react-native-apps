@@ -8,7 +8,7 @@ import createStyles from './ScreenWrapper.styles';
 
 import {ViewStyleProp} from '@types';
 
-type ScreenWrapperProps = {
+export type ScreenWrapperProps = {
 	style?: ViewStyleProp;
 } & React.PropsWithChildren;
 

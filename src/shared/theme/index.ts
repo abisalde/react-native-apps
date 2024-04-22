@@ -32,6 +32,7 @@ export const palette: PaletteColors = {
 	separator: 'rgb(194, 194, 195)',
 	highlight: 'rgb(199, 198, 203)',
 	blackOverlay: 'rgba(0,0,0,0.6)',
+	lightGreen: 'rgba(0, 191, 105, 0.1)',
 	background: '#F5F7FB',
 	dynamicBackground: '#fff',
 	darkBg: '#00003D',
@@ -40,8 +41,10 @@ export const palette: PaletteColors = {
 	borderColorDark: '#333942',
 	textPlaceholder: '#BDBDBD',
 	shadow: '#F5F5FF',
+	green: '#00BF69',
 	tabBgColor: '#F1F1F1',
 	logoText: '#17395C',
+	purple: '#242164',
 	purpleLight: 'rgba(93, 59, 240, 0.2)',
 	purpleD: '#928FFF',
 	passwordIcon: '#CCD2E3',
@@ -79,6 +82,7 @@ export interface PaletteColors {
 	error: string;
 	separator: string;
 	highlight: string;
+	lightGreen: string;
 	blackOverlay: string;
 	background: string;
 	dynamicBackground: string;
@@ -90,6 +94,8 @@ export interface PaletteColors {
 	shadow: string;
 	tabBgColor: string;
 	logoText: string;
+	green: string;
+	purple: string;
 	purpleLight: string;
 	purpleD: string;
 	passwordIcon: string;

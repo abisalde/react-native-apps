@@ -6,6 +6,7 @@ import RNText, {IRNTextProps} from '@freakycoder/react-native-custom-text';
  * ? Local Imports
  */
 import {ColorKeys, FontKeys} from '@types';
+import {palette} from '@app-theme';
 
 type FontKeysType = keyof typeof FontKeys;
 type ColorKeysType = keyof typeof ColorKeys;
@@ -23,7 +24,7 @@ export const Text: React.FC<ITextWrapperProps> = ({
 	...rest
 }) => {
 	return (
-		<RNText fontFamily={fontFamily} color={color} {...rest}>
+		<RNText fontFamily={fontFamily} color={palette[color]} {...rest}>
 			{children}
 		</RNText>
 	);
