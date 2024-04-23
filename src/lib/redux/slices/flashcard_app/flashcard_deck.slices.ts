@@ -3,8 +3,9 @@ import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 /**
  * ? Local & Shared Imports
  */
-import {loadAllFlashcardDecksAsync} from './thunks';
+import {addDeckAsync, loadAllFlashcardDecksAsync} from './thunks';
 import {type DeckListType} from '@types';
+import {type NewDeckFormType} from '@services/model';
 
 type DeckState = {
 	last_updated: number;
@@ -22,7 +23,7 @@ export const flashcardDeckSlice = createSlice({
 	name: 'decks',
 	initialState,
 	reducers: {
-		addDeck: (state, payload) => {},
+		addDeck: (state, payload: PayloadAction<NewDeckFormType>) => {},
 		removeDeck: () => {},
 		addCardToDeck: () => {},
 	},
@@ -39,6 +40,14 @@ export const flashcardDeckSlice = createSlice({
 				state.decks = action.payload;
 				state.last_updated = Date.now();
 			});
+
+		builder.addCase(addDeckAsync.fulfilled, (state, action) => {
+			const {title} = action.payload;
+			state.decks[title] = {
+				title,
+				questions: [],
+			};
+		});
 	},
 });
 

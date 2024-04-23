@@ -7,7 +7,7 @@ import {
 	createNavigationContainerRef,
 	NavigationContainer,
 } from '@react-navigation/native';
-
+import {useReactNavigationDevTools} from '@dev-plugins/react-navigation';
 /**
  *
  * ? Local & Shared Imports
@@ -28,6 +28,8 @@ interface RefObject<T> {
 const Navigation: React.FC = () => {
 	const isReady: RefObject<boolean> = React.createRef<boolean>();
 	const navigationRef = createNavigationContainerRef<RootStackParamList>();
+
+	useReactNavigationDevTools(navigationRef);
 
 	React.useEffect((): any => {
 		return () => (isReady.current = false);
