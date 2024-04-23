@@ -18,14 +18,16 @@ import {AntDesign, Ionicons} from '@expo/vector-icons';
 /**
  * ? Local & Shared Imports
  */
+import {MobileFlashcardTabConfigs} from './config';
+import {ROUTES} from '../routes';
+
 import {Separator} from '@shared-components/separator';
 import {Text} from '@shared-components/text-wrapper';
 import {fontPixel, pixelSizeVertical} from '@utils/normalize';
 
+import {useAppDispatch, loadAllFlashcardDecksAsync} from '@lib/redux';
 import {palette} from '@app-theme';
 import {Android, iOS} from '@shared-constants/app-config';
-import {MobileFlashcardTabConfigs} from './config';
-import {ROUTES} from '../routes';
 
 import {type MobileFlashCardTabList} from './types';
 
@@ -34,13 +36,21 @@ const Tabs = Android
 	: createBottomTabNavigator<MobileFlashCardTabList>();
 
 export const MobileFlashCardTab = () => {
+	const dispatch = useAppDispatch();
+
+	React.useEffect(() => {
+		dispatch(loadAllFlashcardDecksAsync());
+	}, [dispatch]);
+
 	return (
 		<Tabs.Navigator
+			initialRouteName={ROUTES.MF_DECK_LIST}
 			screenOptions={{
 				headerShown: false,
 				tabBarActiveTintColor: iOS ? palette.purple : palette.white,
 				tabBarIndicatorStyle: {
-					backgroundColor: 'red',
+					backgroundColor: palette.yellow,
+					height: 4,
 				},
 			}}
 			tabBar={(props) => <TabBar {...props} />}
@@ -81,6 +91,7 @@ const TabBar: React.FC<BottomTabBarProps | MaterialTopTabBarProps> = ({
 						key={route.key + index.toString()}
 						accessibilityRole='button'
 						accessibilityLabel={options.title ?? route.name}
+						accessibilityState={focused ? {selected: true} : {}}
 						style={styles.tab}
 						onPress={handleNavigation}
 						onLongPress={onLongPress}

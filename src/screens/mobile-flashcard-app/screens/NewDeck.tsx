@@ -7,11 +7,12 @@ import {View} from 'react-native';
  */
 import {ScreensProvider} from '../components';
 import {Text} from '@shared-components/text-wrapper';
-import {palette} from '@app-theme';
 
-export const NewDeck = () => {
+import {type MobileFlashCardEntryProps} from '@navigation/types';
+
+export const NewDeck = ({}: MobileFlashCardEntryProps) => {
 	return (
-		<ScreensProvider style={{backgroundColor: palette.lightGreen}}>
+		<ScreensProvider>
 			<View>
 				<Text>New Deck</Text>
 			</View>

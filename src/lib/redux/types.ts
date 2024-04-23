@@ -2,7 +2,7 @@
 import {type ThunkAction, type Action} from '@reduxjs/toolkit';
 
 import {reduxStore} from './store';
-import {rootReducers} from './rootReducer';
+import {appReducers} from './rootReducer';
 
 /* Types */
 export type ReduxStore = typeof reduxStore;
@@ -14,4 +14,4 @@ export type ReduxThunkAction<ReturnType = void> = ThunkAction<
 	unknown,
 	Action
 >;
-export type RootState = ReturnType<typeof rootReducers>;
+export type RootState = ReturnType<typeof appReducers>;

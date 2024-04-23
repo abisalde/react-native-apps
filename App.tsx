@@ -9,6 +9,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 import Navigation from '@app-navigation';
 import fonts from '@fonts';
+import {StoreProvider} from '@lib/providers';
 
 const customFonts = Object.assign({}, fonts, FontAwesome.font, Feather.font);
 
@@ -29,5 +30,9 @@ export default function App() {
 		return null;
 	}
 
-	return <Navigation />;
+	return (
+		<StoreProvider>
+			<Navigation />
+		</StoreProvider>
+	);
 }

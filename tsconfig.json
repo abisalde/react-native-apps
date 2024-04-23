@@ -45,6 +45,6 @@
 			"@navigation/*": ["./src/navigation/*"]
 		}
 	},
-	"include": ["**/*.ts", "**/*.tsx"],
+	"include": ["**/*.ts", "**/*.tsx", "../unipatron/test.tsx"],
 	"exclude": ["node_modules", "babel.config.js", "metro.config.js"]
 }
