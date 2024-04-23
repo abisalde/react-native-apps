@@ -168,7 +168,7 @@ const Icon: React.FC<TabItemProps> = ({focused, name}) => {
 
 const styles = StyleSheet.create({
 	tabBar: {
-		height: 80,
+		height: 70,
 		backgroundColor: iOS ? palette.white : palette.purple,
 		shadowColor: palette.black3,
 		shadowOffset: {
@@ -182,9 +182,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		position: 'relative',
-		marginTop: Android ? pixelSizeVertical(16) : undefined,
-		paddingTop: Android ? pixelSizeVertical(35) : undefined,
-		paddingBottom: Android ? pixelSizeVertical(12) : undefined,
 	},
 	tab: {
 		justifyContent: 'center',
