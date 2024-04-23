@@ -62,3 +62,13 @@ export enum ColorKeys {
 
 export type ViewStyleProp = StyleProp<ViewStyle> | Array<StyleProp<ViewStyle>>;
 export type TextStyleProp = StyleProp<TextStyle> | Array<StyleProp<TextStyle>>;
+
+export type DeckListType = {
+	title: string;
+	questions: DeckListQuestionType[];
+};
+
+export type DeckListQuestionType = {
+	question: string;
+	answer: string;
+};

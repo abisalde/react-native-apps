@@ -1,43 +1,58 @@
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-import type {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import type {CompositeScreenProps} from '@react-navigation/native';
 
 /**
  * ? Local & Shared Imports
  */
 import {ROUTES} from './routes';
-import type {MobileFlashCardTabList} from './tabs/types';
+import type {
+	MobileFlashCardTabList,
+	MobileFlashCardTabsProps,
+	ExtractScreenType,
+} from './tabs/types';
 
+/**
+ * MOBILE_FLASHCARD_TYPES
+ */
 export type MobileFlashCardStackList = {
 	[ROUTES.MOBILE_FLASHCARD_ENTRY]: undefined;
 };
 
+export type MobileFlashCardEntryProps = NativeStackScreenProps<
+	MobileFlashCardStackList,
+	keyof ExtractScreenType<MobileFlashCardTabsProps>
+>;
+
+// export type MobileFlashCardDeckListProps
+
+/**
+ * MOBILE_FLASHCARD_TYPES ENDS HERE
+ */
+
 export type FitnessAppStackList = {
 	[ROUTES.FITNESS_ENTRY]: undefined;
 };
-
-export type APPEntryProps = NativeStackScreenProps<
-	AppStackScreensList,
-	'APP_ENTRY_SCREEN_EXAMPLES_APP'
->;
-
-export type MobileFlashCardEntryProps = NativeStackScreenProps<
-	MobileFlashCardStackList,
-	'MOBILE_FLASHCARD_ENTRY'
->;
 
 export type FitnessAppEntryProps = NativeStackScreenProps<
 	FitnessAppStackList,
 	'FITNESS_ENTRY'
 >;
 
+export type APPEntryProps = NativeStackScreenProps<
+	AppStackScreensList,
+	'APP_ENTRY_SCREEN_EXAMPLES_APP'
+>;
+
 export type AppStackScreensList = {
 	[ROUTES.APP_ENTRY_SCREEN]: undefined;
-	[ROUTES.MOBILE_FLASHCARD_ENTRY_SCREEN]: undefined;
+	[ROUTES.MOBILE_FLASHCARD_ENTRY_SCREEN]: MobileFlashCardStackList;
 	[ROUTES.FITNESS_ENTRY_SCREEN]: undefined;
 };
 
-export interface RootStackParamList extends AppStackScreensList {}
+export interface RootStackParamList
+	extends AppStackScreensList,
+		MobileFlashCardStackList {}
 
 declare global {
 	namespace ReactNavigation {

@@ -1,0 +1,7 @@
+/**
+ * ? Local & Shared Imports
+ */
+import type {ReduxState} from '../../types';
+
+export const allDecks = (state: ReduxState) => state.flashcard_deck.decks;
+export const isLoading = (state: ReduxState) => state.flashcard_deck.status;

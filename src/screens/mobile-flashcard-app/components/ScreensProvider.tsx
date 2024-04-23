@@ -12,12 +12,13 @@ import {
 
 import {palette} from '@app-theme';
 import {Android} from '@shared-constants/app-config';
+import {StyleSheet} from 'react-native';
 
 export const ScreensProvider: React.FC<ScreenWrapperProps> = (
 	props: ScreenWrapperProps
 ) => (
 	<>
-		<ScreenWrapper {...props} />
+		<ScreenWrapper {...props} style={[styles.root, props.style]} />
 		<StatusBar
 			translucent
 			style={Android ? 'light' : 'dark'}
@@ -25,3 +26,9 @@ export const ScreensProvider: React.FC<ScreenWrapperProps> = (
 		/>
 	</>
 );
+
+const styles = StyleSheet.create({
+	root: {
+		backgroundColor: palette.lightGreen,
+	},
+});

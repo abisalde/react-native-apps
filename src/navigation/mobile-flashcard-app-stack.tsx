@@ -2,7 +2,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 /**
  * ? SCREENS
  */
-import MobileFlashCardEntry from '@screens/mobile-flashcard-app';
 
 import {ROUTES} from './routes';
 import {type MobileFlashCardStackList} from './types';
