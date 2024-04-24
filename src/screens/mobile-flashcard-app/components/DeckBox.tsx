@@ -1,10 +1,14 @@
 import * as React from 'react';
-import {GestureResponderEvent, StyleSheet, View} from 'react-native';
+import {
+	GestureResponderEvent,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 
 /**
  * ? Local & Shared Imports
  */
-import {RNBounce} from '@shared-components/button';
 import {Separator} from '@shared-components/separator';
 import {Text} from '@shared-components/text-wrapper';
 
@@ -16,14 +20,14 @@ import type {ViewStyleProp, DeckListQuestionType} from '@types';
 interface DeckBoxProps {
 	id: string | undefined;
 	questions: DeckListQuestionType[];
-	onPress: (e: GestureResponderEvent) => void;
+	onPress?: (e: GestureResponderEvent) => void;
 	style?: ViewStyleProp;
 }
 
 export const DeckBox: React.FC<DeckBoxProps> = ({
 	id,
 	questions,
-	onPress,
+	onPress = () => {},
 	style,
 }) => {
 	if (!id)
@@ -38,7 +42,9 @@ export const DeckBox: React.FC<DeckBoxProps> = ({
 	return (
 		<>
 			<View style={[styles.deckBoxContainer, style]}>
-				<RNBounce
+				<TouchableOpacity
+					style={styles.wrapper}
+					activeOpacity={0.75}
 					accessibilityRole='button'
 					accessibilityLabel='Navigate to deck'
 					onPress={onPress}
@@ -55,7 +61,7 @@ export const DeckBox: React.FC<DeckBoxProps> = ({
 							</>
 						) : null}
 					</Text>
-				</RNBounce>
+				</TouchableOpacity>
 			</View>
 			<Separator height={20} />
 		</>
@@ -82,5 +88,8 @@ const styles = StyleSheet.create({
 			height: 3,
 		},
 		elevation: 9,
+	},
+	wrapper: {
+		width: '100%',
 	},
 });

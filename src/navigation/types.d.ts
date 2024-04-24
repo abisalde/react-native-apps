@@ -17,6 +17,7 @@ import type {
  */
 export type MobileFlashCardStackList = {
 	[ROUTES.MOBILE_FLASHCARD_ENTRY]: undefined;
+	[ROUTES.MF_SINGLE_DECK]: {title: string};
 };
 
 export type MobileFlashCardEntryProps = NativeStackScreenProps<
@@ -24,7 +25,10 @@ export type MobileFlashCardEntryProps = NativeStackScreenProps<
 	keyof ExtractScreenType<MobileFlashCardTabsProps>
 >;
 
-// export type MobileFlashCardDeckListProps
+export type MobileFlashCardDeckProps = NativeStackScreenProps<
+	MobileFlashCardStackList,
+	'MOBILE_FLASHCARD_SINGLE_DECK_SCREEN'
+>;
 
 /**
  * MOBILE_FLASHCARD_TYPES ENDS HERE

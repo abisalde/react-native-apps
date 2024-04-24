@@ -4,6 +4,7 @@ import type {StackNavigationOptions} from '@react-navigation/stack/lib/typescrip
 /**
  * ? SCREENS
  */
+import {Deck} from '@screens/mobile-flashcard-app/screens';
 import {MobileFlashCardTab} from './tabs';
 
 import {ROUTES} from './routes';
@@ -24,7 +25,14 @@ export const MobileFlashCardStack = () => (
 		<Stack.Screen
 			name={ROUTES.MOBILE_FLASHCARD_ENTRY}
 			component={MobileFlashCardTab}
-			options={commonOptions({title: 'Flashcard', hideBackButton: true})}
+			options={commonOptions({title: 'Flashcards', hideBackButton: true})}
+		/>
+		<Stack.Screen
+			name={ROUTES.MF_SINGLE_DECK}
+			component={Deck}
+			options={commonOptions({
+				headerBackTitle: 'Flashcards',
+			})}
 		/>
 	</Stack.Navigator>
 );
