@@ -12,6 +12,9 @@ import {palette} from '@app-theme';
 import {fontPixel} from '@utils/normalize';
 
 import {type MobileFlashCardStackList} from './types';
+import {AddDeckCard} from '../screens/mobile-flashcard-app/screens/AddDeckCard';
+import {QuizHome} from '../screens/mobile-flashcard-app/screens/QuizHome';
+import {Score} from '../screens/mobile-flashcard-app/screens/Score';
 
 const Stack = createStackNavigator<MobileFlashCardStackList>();
 
@@ -33,6 +36,21 @@ export const MobileFlashCardStack = () => (
 			options={commonOptions({
 				headerBackTitle: 'Flashcards',
 			})}
+		/>
+		<Stack.Screen
+			name={ROUTES.MF_ADD_CARD}
+			component={AddDeckCard}
+			options={commonOptions({title: 'Add Card'})}
+		/>
+		<Stack.Screen
+			name={ROUTES.MF_QUIZ_HOME}
+			component={QuizHome}
+			options={commonOptions({title: 'Quiz'})}
+		/>
+		<Stack.Screen
+			name={ROUTES.MF_SCORE}
+			component={Score}
+			options={commonOptions({title: 'Score'})}
 		/>
 	</Stack.Navigator>
 );
