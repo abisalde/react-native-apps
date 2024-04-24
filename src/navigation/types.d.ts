@@ -18,6 +18,9 @@ import type {
 export type MobileFlashCardStackList = {
 	[ROUTES.MOBILE_FLASHCARD_ENTRY]: undefined;
 	[ROUTES.MF_SINGLE_DECK]: {title: string};
+	[ROUTES.MF_ADD_CARD]: {title: string};
+	[ROUTES.MF_QUIZ_HOME]: {title: string};
+	[ROUTES.MF_SCORE]: {title: string};
 };
 
 export type MobileFlashCardEntryProps = NativeStackScreenProps<
@@ -28,6 +31,20 @@ export type MobileFlashCardEntryProps = NativeStackScreenProps<
 export type MobileFlashCardDeckProps = NativeStackScreenProps<
 	MobileFlashCardStackList,
 	'MOBILE_FLASHCARD_SINGLE_DECK_SCREEN'
+>;
+export type MobileFlashCardAddCardDeckProps = NativeStackScreenProps<
+	MobileFlashCardStackList,
+	'MOBILE_FLASHCARD_ADD_SCREEN'
+>;
+
+export type MobileFlashCardQuizHomeProps = NativeStackScreenProps<
+	MobileFlashCardStackList,
+	'MOBILE_FLASHCARD_QUIZ_HOME_SCREEN'
+>;
+
+export type MobileFlashCardScoreProps = NativeStackScreenProps<
+	MobileFlashCardStackList,
+	'MOBILE_FLASHCARD_SCORE_SCREEN'
 >;
 
 /**

@@ -29,13 +29,7 @@ export const Deck = ({navigation, route}: MobileFlashCardDeckProps) => {
 	const dispatch = useAppDispatch();
 	const decks = useAppSelector(allDecks);
 	const isDeleting = useAppSelector(deleteStatus);
-	const deckTitle = route.params?.title;
-
-	if (typeof deckTitle === 'undefined')
-		return navigation.reset({
-			index: 0,
-			routes: [{name: 'MOBILE_FLASHCARD_ENTRY'}],
-		});
+	const deckTitle = route.params?.title ?? '';
 
 	const deck = React.useMemo(() => {
 		const sortedDeck = decks[deckTitle];
@@ -71,8 +65,14 @@ export const Deck = ({navigation, route}: MobileFlashCardDeckProps) => {
 	const navigateTo = React.useCallback(
 		(e: GestureResponderEvent, screen: 'add_card' | 'start_quiz') => {
 			e.stopPropagation();
+			navigation.navigate(
+				screen === 'add_card'
+					? 'MOBILE_FLASHCARD_ADD_SCREEN'
+					: 'MOBILE_FLASHCARD_QUIZ_HOME_SCREEN',
+				{title: deckTitle}
+			);
 		},
-		[]
+		[navigation, deckTitle]
 	);
 	return (
 		<ScreensProvider style={styles.root}>
