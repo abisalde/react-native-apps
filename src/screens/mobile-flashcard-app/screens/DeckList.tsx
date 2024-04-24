@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {ActivityIndicator, GestureResponderEvent} from 'react-native';
 
+import {ScrollView} from 'react-native-gesture-handler';
 /**
  *
  * @returns @function DeckList
@@ -17,9 +18,10 @@ export const DeckList = ({navigation}: MobileFlashCardEntryProps) => {
 	const loading = useAppSelector(isLoading);
 
 	const navigateTo = React.useCallback(
-		(e: GestureResponderEvent) => {
+		(e: GestureResponderEvent, title: string) => {
+			e.persist();
 			e.stopPropagation();
-			// navigation.navigate()
+			navigation.navigate('MOBILE_FLASHCARD_SINGLE_DECK_SCREEN', {title});
 		},
 		[navigation]
 	);
@@ -29,17 +31,23 @@ export const DeckList = ({navigation}: MobileFlashCardEntryProps) => {
 			{loading === 'loading' ? (
 				<ActivityIndicator size='large' animating color={palette.purpleLight} />
 			) : (
-				Object.keys(decksList).map((deck, index) => {
-					const questions = decksList[deck].questions;
-					return (
-						<DeckBox
-							onPress={navigateTo}
-							key={index.toString() + deck}
-							id={deck}
-							questions={questions}
-						/>
-					);
-				})
+				<ScrollView
+					horizontal={false}
+					showsVerticalScrollIndicator={false}
+					style={{flex: 1}}
+				>
+					{Object.keys(decksList).map((deck, index) => {
+						const questions = decksList[deck].questions;
+						return (
+							<DeckBox
+								onPress={(e) => navigateTo(e, deck)}
+								key={index.toString() + deck}
+								id={deck}
+								questions={questions}
+							/>
+						);
+					})}
+				</ScrollView>
 			)}
 		</ScreensProvider>
 	);
