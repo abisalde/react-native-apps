@@ -4,7 +4,12 @@ import type {StackNavigationOptions} from '@react-navigation/stack/lib/typescrip
 /**
  * ? SCREENS
  */
-import {Deck} from '@screens/mobile-flashcard-app/screens';
+import {
+	AddDeckCard,
+	Deck,
+	QuizHome,
+	Score,
+} from '@screens/mobile-flashcard-app/screens';
 import {MobileFlashCardTab} from './tabs';
 
 import {ROUTES} from './routes';
@@ -12,9 +17,6 @@ import {palette} from '@app-theme';
 import {fontPixel} from '@utils/normalize';
 
 import {type MobileFlashCardStackList} from './types';
-import {AddDeckCard} from '../screens/mobile-flashcard-app/screens/AddDeckCard';
-import {QuizHome} from '../screens/mobile-flashcard-app/screens/QuizHome';
-import {Score} from '../screens/mobile-flashcard-app/screens/Score';
 
 const Stack = createStackNavigator<MobileFlashCardStackList>();
 

@@ -2,7 +2,6 @@ import * as React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {
 	Animated,
-	View,
 	StyleProp,
 	ViewStyle,
 	ActivityIndicator,
@@ -63,31 +62,29 @@ export const Button: React.FC<ButtonProps> = ({
 	);
 
 	return (
-		<View style={styles.root}>
-			<RNBounce
-				{...props}
-				disabled={disabled}
-				onPress={onPress}
-				style={buttonContainerStyle}
-			>
-				{!loading ? (
-					<Text
-						color={variant === 'primary' ? 'white' : 'black'}
-						center
-						fontFamily='DMSansSemiBold'
-						style={textLabelStyle}
-					>
-						{textLabel}
-					</Text>
-				) : (
-					<ActivityIndicator
-						animating={loading}
-						size='large'
-						color={variant === 'primary' ? 'white' : 'primary'}
-					/>
-				)}
-			</RNBounce>
-		</View>
+		<RNBounce
+			{...props}
+			disabled={disabled}
+			onPress={onPress}
+			style={buttonContainerStyle}
+		>
+			{!loading ? (
+				<Text
+					color={variant === 'primary' ? 'white' : 'black'}
+					center
+					fontFamily='DMSansSemiBold'
+					style={textLabelStyle}
+				>
+					{textLabel}
+				</Text>
+			) : (
+				<ActivityIndicator
+					animating={loading}
+					size='large'
+					color={variant === 'primary' ? 'white' : 'primary'}
+				/>
+			)}
+		</RNBounce>
 	);
 };
 
