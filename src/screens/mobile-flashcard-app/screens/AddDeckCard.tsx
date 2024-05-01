@@ -23,8 +23,9 @@ export const AddDeckCard = ({
 			values: DeckListQuestionType,
 			actions: FormikHelpers<DeckListQuestionType>
 		) => {
+			const card = {...values, question: `${values.question}?`};
 			try {
-				await dispatch(addCardToDeckAsync({title, card: values}));
+				await dispatch(addCardToDeckAsync({title, card}));
 			} catch (error) {
 			} finally {
 				actions.resetForm();
