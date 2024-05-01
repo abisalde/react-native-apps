@@ -3,15 +3,9 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	View,
-	Animated as RNAnimated,
+	Animated,
 	GestureResponderEvent,
 } from 'react-native';
-import Animated, {
-	useAnimatedStyle,
-	useSharedValue,
-	withSpring,
-} from 'react-native-reanimated';
-import {Swipeable} from 'react-native-gesture-handler';
 
 /**
  * ? Local & Shared Imports
@@ -19,30 +13,21 @@ import {Swipeable} from 'react-native-gesture-handler';
 import {ScreensProvider} from '../components';
 
 import {Button} from '@shared-components/button';
+import {Card} from '@shared-components/card';
 import {Separator} from '@shared-components/separator';
 import {Text} from '@shared-components/text-wrapper';
 
-import {
-	allDecks,
-	deleteDeckAsync,
-	deleteStatus,
-	useAppDispatch,
-	useAppSelector,
-} from '@lib/redux';
+import {allDecks, useAppSelector} from '@lib/redux';
 import {useQuiz} from '@hooks';
 
+import {scaledPixel} from '@utils/normalize';
 import {palette} from '@app-theme';
 
 import type {MobileFlashCardQuizHomeProps} from '@navigation/types';
-import {Card} from '@shared-components/card';
 
 export const QuizHome = ({navigation, route}: MobileFlashCardQuizHomeProps) => {
-	const dispatch = useAppDispatch();
 	const decks = useAppSelector(allDecks);
-	const {state} = useQuiz();
-
-	const rotation = useSharedValue(0);
-	const [showAnswer, setShowAnswer] = React.useState(false);
+	const {state, markQuestion, nextQuestion, reset} = useQuiz();
 
 	const title = route.params?.title ?? '';
 
@@ -63,48 +48,61 @@ export const QuizHome = ({navigation, route}: MobileFlashCardQuizHomeProps) => {
 		setTitle();
 	}, []);
 
-	const animatedStyle = useAnimatedStyle(() => ({
-		transform: [{perspective: 1000}, {rotateY: `${rotation.value}deg`}],
-	}));
+	const animatedValue = React.useRef(new Animated.Value(0)).current;
+	let angleRef = React.useRef(0);
 
-	// const flipCard = React.useCallback(
-	// 	(e: GestureResponderEvent) => {
-	// 		e.persist();
-	// 		e.stopPropagation();
-	// 		rotation.value = withSpring(rotation.value === 0 ? 180 : 0);
-	// 		setShowAnswer((prev) => !prev);
-	// 		console.log({rotation});
-	// 	},
-	// 	[rotation]
-	// );
-	const flipCard = () => {
-		RNAnimated.timing(animatedValue, {
-			toValue: showAnswer ? 0 : 1,
-			duration: 500,
-			useNativeDriver: true,
-		}).start(() => setShowAnswer((prev) => !prev));
-	};
+	const flipCard = React.useCallback(
+		(e: GestureResponderEvent) => {
+			e.stopPropagation();
+			const toValue = angleRef.current >= 90 ? 0 : 180;
+			Animated.spring(animatedValue, {
+				toValue,
+				friction: 8,
+				tension: 10,
+				useNativeDriver: true,
+			}).start();
+		},
+		[angleRef, animatedValue]
+	);
 
-	const animatedValue = React.useRef(new RNAnimated.Value(0)).current;
+	React.useEffect(() => {
+		const listener = animatedValue.addListener(({value}) => {
+			angleRef.current = value;
+		});
 
-	const interpolateRotation = animatedValue.interpolate({
-		inputRange: [0, 1],
+		return () => {
+			animatedValue.removeListener(listener);
+		};
+	}, [angleRef, animatedValue]);
+
+	React.useEffect(() => {
+		const totalQuestion = deck.questions.length;
+
+		if (state.count >= totalQuestion) {
+			navigation.navigate('MOBILE_FLASHCARD_SCORE_SCREEN', {
+				id: title,
+				correctAnswers: state.correctAnswers,
+				totalQuestion,
+			});
+			reset();
+		}
+	}, [state, navigation, title, reset]);
+
+	const frontInterpolate = animatedValue.interpolate({
+		inputRange: [0, 180],
 		outputRange: ['0deg', '180deg'],
+	});
+	const backInterpolate = animatedValue.interpolate({
+		inputRange: [0, 180],
+		outputRange: ['180deg', '360deg'],
 	});
 
 	const frontAnimatedStyle = {
-		transform: [{rotateY: interpolateRotation}],
+		transform: [{rotateY: frontInterpolate}],
 	};
 
 	const backAnimatedStyle = {
-		transform: [
-			{
-				rotateY: interpolateRotation.interpolate({
-					inputRange: [0, 1],
-					outputRange: ['180deg', '360deg'],
-				}),
-			},
-		],
+		transform: [{rotateY: backInterpolate}],
 	};
 
 	return (
@@ -124,7 +122,9 @@ export const QuizHome = ({navigation, route}: MobileFlashCardQuizHomeProps) => {
 					<Separator height={30} />
 					<View style={styles.wrapper}>
 						<View style={styles.flipContainer}>
-							<RNAnimated.View style={[styles.cardFlip, frontAnimatedStyle]}>
+							<Animated.View
+								style={[styles.cardFlip, styles.flipBack, frontAnimatedStyle]}
+							>
 								<Card style={styles.card}>
 									<Text h2 center fontFamily='DMSansSemiBold' color='black'>
 										{deck.questions[state.questionIndex]?.question}
@@ -133,6 +133,9 @@ export const QuizHome = ({navigation, route}: MobileFlashCardQuizHomeProps) => {
 										accessibilityRole='button'
 										accessibilityLabel='show answer to question'
 										activeOpacity={0.75}
+										onPress={flipCard}
+										style={styles.flipBtn}
+										disabled={state.showAnswer}
 									>
 										<Separator height={10} />
 										<Text h3 center fontFamily='DMSansSemiBold' color='success'>
@@ -140,10 +143,8 @@ export const QuizHome = ({navigation, route}: MobileFlashCardQuizHomeProps) => {
 										</Text>
 									</TouchableOpacity>
 								</Card>
-							</RNAnimated.View>
-							<RNAnimated.View
-								style={[styles.cardFlip, styles.flipBack, backAnimatedStyle]}
-							>
+							</Animated.View>
+							<Animated.View style={[styles.cardFlip, backAnimatedStyle]}>
 								<Card style={styles.card}>
 									<Text h2 center fontFamily='DMSansSemiBold' color='black'>
 										{deck.questions[state.questionIndex]?.answer}
@@ -152,6 +153,8 @@ export const QuizHome = ({navigation, route}: MobileFlashCardQuizHomeProps) => {
 										accessibilityRole='button'
 										accessibilityLabel='show question to answer'
 										activeOpacity={0.75}
+										onPress={flipCard}
+										disabled={state.showAnswer}
 									>
 										<Separator height={10} />
 										<Text h3 center fontFamily='DMSansSemiBold' color='grey'>
@@ -159,26 +162,35 @@ export const QuizHome = ({navigation, route}: MobileFlashCardQuizHomeProps) => {
 										</Text>
 									</TouchableOpacity>
 								</Card>
-							</RNAnimated.View>
+							</Animated.View>
 						</View>
 						<View>
 							<View style={styles.btnContainer}>
 								<Button
+									accessibilityLabel='Is the Question Correct'
 									disabled={state.disabledButtons}
 									textLabel='Correct'
 									style={[styles.btn, !state.disabledButtons && styles.correct]}
+									onPress={(e) => markQuestion(e, true)}
 								/>
 								<Button
+									accessibilityLabel='Is the Question InCorrect'
 									disabled={state.disabledButtons}
 									textLabel='InCorrect'
 									style={[
 										styles.btn,
 										!state.disabledButtons && styles.inCorrect,
 									]}
+									onPress={(e) => markQuestion(e, false)}
 								/>
 							</View>
 							<Separator height={20} />
-							<Button textLabel='Next' />
+							<Button
+								accessibilityLabel='Next question'
+								disabled={state.nextQuestion}
+								textLabel='Next'
+								onPress={(e) => nextQuestion(e, deck.questions)}
+							/>
 						</View>
 					</View>
 				</View>
@@ -202,6 +214,7 @@ const styles = StyleSheet.create({
 	},
 	flipContainer: {
 		width: '100%',
+		alignItems: 'center',
 	},
 	btnContainer: {
 		flexDirection: 'row',
@@ -223,14 +236,16 @@ const styles = StyleSheet.create({
 	},
 	cardFlip: {
 		borderRadius: 8,
-		overflow: 'hidden',
 		backfaceVisibility: 'hidden',
+		backgroundColor: 'white',
+		width: '100%',
 	},
 	flipBack: {
 		position: 'absolute',
-		// top: 0,
-		// left: 0,
-		// right: 0,
-		// bottom: 0,
+		top: 0,
+		transform: [{rotateY: '180deg'}],
+	},
+	flipBtn: {
+		paddingVertical: scaledPixel(16),
 	},
 });

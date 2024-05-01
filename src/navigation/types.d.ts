@@ -20,7 +20,11 @@ export type MobileFlashCardStackList = {
 	[ROUTES.MF_SINGLE_DECK]: {title: string};
 	[ROUTES.MF_ADD_CARD]: {title: string};
 	[ROUTES.MF_QUIZ_HOME]: {title: string};
-	[ROUTES.MF_SCORE]: {title: string};
+	[ROUTES.MF_SCORE]: {
+		id: string;
+		correctAnswers: number;
+		totalQuestion: number;
+	};
 };
 
 export type MobileFlashCardEntryProps = NativeStackScreenProps<

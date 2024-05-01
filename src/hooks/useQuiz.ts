@@ -28,7 +28,6 @@ type QuizActions =
 	| {type: ACTIONS.NEXT_QUESTION; payload: {questions: DeckListQuestionType[]}}
 	| {
 			type: ACTIONS.NAVIGATE_TO_SCORE;
-			payload: {questions: DeckListQuestionType[]; id: string; navigation: any};
 	  };
 
 const initialState: QuizState = {
@@ -65,11 +64,7 @@ const quizReducer = (state: QuizState, action: QuizActions) => {
 				nextQuestion: true,
 			};
 		case ACTIONS.NAVIGATE_TO_SCORE:
-			const totalQuestion = action.payload.questions.length;
-			if (state.count >= totalQuestion) {
-				return initialState;
-			}
-			return state;
+			return initialState;
 		default:
 			return state;
 	}
@@ -86,9 +81,35 @@ export const useQuiz = () => {
 		[dispatch]
 	);
 
+	const nextQuestion = useCallback(
+		(e: GestureResponderEvent, questions: DeckListQuestionType[]) => {
+			e.stopPropagation();
+			dispatch({type: ACTIONS.NEXT_QUESTION, payload: {questions}});
+		},
+		[dispatch]
+	);
+
+	const reset = useCallback(() => {
+		dispatch({type: ACTIONS.NAVIGATE_TO_SCORE});
+	}, [dispatch]);
+
 	return {
 		state,
 		dispatch,
 		markQuestion,
+		nextQuestion,
+		reset,
 	};
 };
+
+// case 'NAVIGATE_TO_SCORE':
+// 	const totalQuestion = action.questions.length;
+// 	if (state.count >= totalQuestion) {
+// 	  action.navigation.navigate('Score', {
+// 		id: action.id,
+// 		correctAnswers: state.correctAnswers,
+// 		totalQuestion
+// 	  });
+// 	  return initialState;
+// 	}
+// 	return state;
