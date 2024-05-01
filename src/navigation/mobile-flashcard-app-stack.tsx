@@ -52,7 +52,7 @@ export const MobileFlashCardStack = () => (
 		<Stack.Screen
 			name={ROUTES.MF_SCORE}
 			component={Score}
-			options={commonOptions({title: 'Score'})}
+			options={commonOptions({title: 'Score', hideBackButton: true})}
 		/>
 	</Stack.Navigator>
 );
